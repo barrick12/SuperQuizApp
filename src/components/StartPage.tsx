@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-// import {}
-import AppText from './AppText'
+import { QuestionAnswerContext } from '../context/questionAnswerContext';
+import AppText from './AppText';
+import axios from "axios";
+import sampleData from '../utils/data'
 
 const StartPage = ({navigation}) : JSX.Element => {
+  
+  const isMockData = true;
+
+  const {getQuestionAnswers, saveQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
+  
   let startButtonFontProps = {    
     color: "#fff",
     fontSize: 20,    
   }
+
+  useEffect(()=>{
+    (async () => {
+      let data = null;
+      if(isMockData) {
+        data = sampleData;
+      } 
+      else {
+        let response = await axios.get('https://scs-interview-api.herokuapp.com/questions');
+        data  = response.data;
+      }       
+      // data transform
+      data.forEach(datum => {datum.isCorrect = false;})      
+      saveQuestionAnswers(data as IQuestionAnswer[]);      
+    })();
+  },[])
   
-  const onPress = () : void => {
+  const onPress = () : void => {    
     navigation.navigate('QuizPage');
   }
 

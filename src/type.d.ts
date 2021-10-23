@@ -1,5 +1,4 @@
 interface IQuestionAnswer {
-
     id: string,
     imageUrl: string,
     question: string,
@@ -9,8 +8,8 @@ interface IQuestionAnswer {
     isCorrect: boolean,
 }
 
-type ContextType = {
-  questionAnswers: IQuestionAnswer[]
+type QuestionAnswerContextType = {  
   saveQuestionAnswers: (questionAnswers: IQuestionAnswer[]) => void 
-  updateQuestionAnswer: (id: string, isCorrect: boolean) => void  
+  updateQuestionAnswer: (id: string, isCorrect: boolean) => void    
+  getQuestionAnswers: () => IQuestionAnswer[];
 }

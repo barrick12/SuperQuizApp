@@ -1,9 +1,9 @@
 import React from "react";
 import { v4 as uuidv4 } from 'uuid';
 
-export const questionAnswerContext = React.createContext(null);
+export const QuestionAnswerContext = React.createContext(null);
 
-const questionAnswerProvider = ({ children }) => {
+const QuestionAnswerProvider = ({ children }) => {
   const [questionAnswers, setQuestionAnswers] = React.useState<IQuestionAnswer[]>([]);
 
   const saveQuestionAnswers = (questionAnswers: IQuestionAnswer[]) => {
@@ -22,7 +22,7 @@ const questionAnswerProvider = ({ children }) => {
       questionAnswersTransform.push(newQuestionAnswer);
     })
     
-    setQuestionAnswers(prev => [...prev, ...questionAnswersTransform]);
+    setQuestionAnswers([...questionAnswersTransform]);
   }
   
   const updateQuestionAnswer = (id: string, isCorrect: boolean) => {
@@ -35,7 +35,17 @@ const questionAnswerProvider = ({ children }) => {
     });
   }
 
+  const getQuestionAnswers = () => (questionAnswers);
+  
+  const initialContext = {    
+    getQuestionAnswers,
+    saveQuestionAnswers,
+    updateQuestionAnswer,
+  }
+
   return(
-    { children }
+    <QuestionAnswerContext.Provider value={ initialContext}>{ children }</QuestionAnswerContext.Provider>
   )
 }
+
+export default QuestionAnswerProvider;
