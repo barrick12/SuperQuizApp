@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { StyleSheet, TouchableOpacity, View  } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image  } from 'react-native';
 import AppText from './AppText'
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import Colors from "../utils/colors"
@@ -20,7 +20,7 @@ const QuizPage = (props) : JSX.Element => {
     setCountCorrectQuestions( prev => index === answer ? prev + 1 : prev );
     setButtonPressed(index);
     // await a timer to return using 'time'    
-    await delay(2000);
+    await delay(1000);
     setShowAnswer(true);
         
     await delay(2000);
@@ -58,6 +58,7 @@ const QuizPage = (props) : JSX.Element => {
               buttonPressed === index && index !== answer && styles.quizPage__button__is_not_answer,
               buttonPressed !== index && index === answer && styles.quizPage__button__is_answer,              
               buttonPressed !== index && index !== answer && {...styles.quizPage__button__not_pressed, ...styles.quizPage__button}, 
+              {flexDirection: 'row', justifyContent:'center'}
             ]
             :
             [styles.quizPage__button, 
@@ -68,15 +69,35 @@ const QuizPage = (props) : JSX.Element => {
           return (
             <View key={`${id}-${index}`} style={{width:'100%'}} >
               <TouchableOpacity
-                style={buttonStyle}                
+                style={buttonStyle}
                 onPress={()=>onPress(index)}
                 activeOpacity={0.75}              
                 disabled={buttonPressed !== -1}
               >
                 <AppText {...appTextProps}
                 >
-                  {option}
+                  {option}                  
                 </AppText>
+                { showAnswer && ((buttonPressed === index && index === answer) || (buttonPressed !== index && index === answer)) &&
+                  <View                       
+                    style={styles.quizPage__button_icon__container} 
+                    >
+                  <Image 
+                    style={styles.quizPage__button_icon__image}                    
+                    source={require('../../assets/greenCheck.png')} />
+                  </View>
+                }
+                { showAnswer && 
+                  (buttonPressed === index && index !== answer) &&                  
+                  <View                       
+                    style={styles.quizPage__button_icon__container} 
+                    >
+                  <Image 
+                    style={styles.quizPage__button_icon__image}                    
+                    source={require('../../assets/redX.png')} />
+                  </View>
+                }
+                
               </TouchableOpacity>              
             </View>
           )
@@ -145,7 +166,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,    
   },
   quizPage__button__is_not_answer: {
-    backgroundColor: Colors.red_honda,    
+    backgroundColor: Colors.red_light,    
     width: '100%',    
     paddingTop: 20,
     paddingBottom: 10,
@@ -154,6 +175,18 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderBottomWidth: 0,    
   },
+  quizPage__button_icon__container: {
+    position:'absolute',
+    overflow: 'visible',
+    right:15,
+    top:0,
+    backgroundColor: 'transparent',
+  },
+  quizPage__button_icon__image: {
+    backgroundColor: 'transparent',                    
+    width: 55,
+    height: 45,
+  }
 });
 
 export default QuizPage;
