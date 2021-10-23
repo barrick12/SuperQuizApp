@@ -2,12 +2,7 @@ import React from 'react';
 import { StyleSheet, Text} from 'react-native';
 import { useFonts } from 'expo-font';
 
-// interface IAppTextProps {  
-//   children: string,
-// }
-
-// export default (props: IAppTextProps): JSX.Element => {
-export default (props): JSX.Element => {
+export default (props: any): JSX.Element => {
   const { children, ...rest} = props;
   let [fontsLoaded] = useFonts({
     'PressStart2P': require('../../assets/fonts/PressStart2P-Regular.ttf'),
@@ -25,8 +20,7 @@ export default (props): JSX.Element => {
     )
 }
 
-// export const styles = (props: IAppTextProps) => StyleSheet.create({
-export const styles = (props) => StyleSheet.create({
+export const styles = (props: any) => StyleSheet.create({
   AppText__text: {
     ...props,    
     textAlign: 'center',
