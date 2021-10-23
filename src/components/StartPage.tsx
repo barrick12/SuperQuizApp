@@ -5,6 +5,7 @@ import AppText from './AppText';
 import axios from "axios";
 import sampleData from '../utils/mockData'
 import Colors from "../utils/colors"
+import delay from '../utils/delay';
 
 const StartPage = ({navigation}) : JSX.Element => {
 
@@ -12,14 +13,13 @@ const StartPage = ({navigation}) : JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
   const {getQuestionAnswers, saveQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
-    
 
   useEffect(()=>{ 
     
     const fetchData = async () => {      
       let data = null;      
-      if(isMockData) {
-        await new Promise((res)=>setTimeout(res,1000));
+      if(isMockData) {        
+        await delay(1000);
         data = sampleData;
       } 
       else {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,    
   },  
   startPage__start_button__text: {
-    color: "#fff",
+    color: Colors.white,
     fontSize: 20,
   },
   startPage__loading__text: {
