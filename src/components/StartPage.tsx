@@ -3,7 +3,8 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import AppText from './AppText';
 import axios from "axios";
-import sampleData from '../utils/data'
+import sampleData from '../utils/mockData'
+import Colors from "../utils/colors"
 
 const StartPage = ({navigation}) : JSX.Element => {
 
@@ -51,6 +52,7 @@ const StartPage = ({navigation}) : JSX.Element => {
         <TouchableOpacity      
           style={styles.startPage__start_button}      
           onPress={onPress}
+          activeOpacity={0.75}
         >
           <AppText {...styles.startPage__start_button__text}          
           >
@@ -66,13 +68,13 @@ const StartPage = ({navigation}) : JSX.Element => {
 const styles = StyleSheet.create({
   startPage__container: {
     flex:1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
   startPage__start_button: {
     width: '50%',
-    backgroundColor: '#CC0000',
+    backgroundColor: Colors.red_honda,
     paddingTop: 20,
     paddingBottom: 10,    
   },  
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   startPage__loading__text: {
-    color: "#000000",
+    color: Colors.black,
     fontSize: 20,
   }
 });
