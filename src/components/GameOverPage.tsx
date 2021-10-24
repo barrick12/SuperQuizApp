@@ -40,7 +40,7 @@ const GameOverPage = ({route, navigation}) : JSX.Element => {
         >
           <AppText {...styles.gameOverPage__restart_button__text}          
           >
-            Start Again?
+            Try Again?
           </AppText>
         </TouchableOpacity>
       
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingTop: 10,
     paddingBottom: 10,
+    lineHeight: 35,
   },
   gameOverPage__text: {
     color: Colors.black,
     fontSize: 20,
-    paddingTop: 10
-    
+    paddingTop: 10,    
   }
 });
 

@@ -1,10 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import { StyleSheet, TouchableOpacity, View, Image  } from 'react-native';
 import AppText from './AppText';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import Colors from '../utils/colors';
 import delay from '../utils/delay';
 import Timer from './Timer'
+
+import {PlayerSprite, EnemySprite} from './Sprite';
 
 const QuizPage = ({navigation}) : JSX.Element => {
   
@@ -19,6 +21,9 @@ const QuizPage = ({navigation}) : JSX.Element => {
   
   let { id, imageUrl, question, options, answer, time} = getQuestionAnswers()[currentQuestionIndex];
   
+  let player = useRef(null);
+  let enemy = useRef(null);
+
   const onPress = async (index:number) : Promise<void> =>{
     setCountCorrectQuestions( prev => index === answer ? prev + 1 : prev );
     setButtonPressed(index);    
@@ -30,10 +35,29 @@ const QuizPage = ({navigation}) : JSX.Element => {
     (async () =>{
 
       if(timer ===0){
-        if(buttonPressed === -1)
-          onPress(options.length);        
-        else 
+        if(buttonPressed === -1){
+          onPress(options.length);
+          if(enemy?.current)
+            //@ts-ignore
+            enemy.current.attackAnim();        
+        }
+        else {
+          
+          if(buttonPressed === answer) {
+            if(player?.current)
+              //@ts-ignore
+              player.current.attackAnim();
+            if(enemy?.current)
+              //@ts-ignore
+              enemy.current.hitAnim();
+          }
+          else {
+            if(enemy?.current)
+              //@ts-ignore
+              enemy.current.attackAnim();
+          }
           setShowAnswer(true);
+        }
 
         await delay();    
         if(currentQuestionIndex !== getQuestionAnswers().length-1) 
@@ -142,7 +166,18 @@ const QuizPage = ({navigation}) : JSX.Element => {
 
   return (
     <View style={styles.quizPage__container}>
-      <View style={{justifyContent:"flex-end", width:"100%", height: "100%"}}>
+      <View style={{position:"absolute", top:120, left: -40}}>
+        <PlayerSprite            
+            ref={player}            
+          />
+      </View>
+      <View style={{position:"absolute", top:120, right: 0}}>
+        <EnemySprite
+          ref={enemy}            
+          />
+      </View>
+      <View style={{justifyContent:"flex-end", width:"100%", height: "100%"}}>        
+      
         <Timer {...timerProps} />
       </View>      
       {questionCard()}
@@ -154,7 +189,7 @@ const QuizPage = ({navigation}) : JSX.Element => {
 const styles = StyleSheet.create({
   quizPage__container: {
     flex:1,
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',    
     alignItems: 'center',
     justifyContent: 'flex-end',
   },  
@@ -229,17 +264,6 @@ const styles = StyleSheet.create({
     height: 5, 
     backgroundColor: Colors.blue_azure_darkest 
   },
-  // quizPage__timer__container: {
-  //   alignItems: 'center',
-  //   backgroundColor:'transparent',
-  //   justifyContent: 'center'
-  // },
-  // quizPage__timer__text: {
-  //   height: 70, 
-  //   backgroundColor: 'transparent', 
-  //   fontSize: 20,     
-  //   position: 'absolute' 
-  // },
   
 });
 
