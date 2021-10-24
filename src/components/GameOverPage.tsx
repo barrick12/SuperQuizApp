@@ -60,15 +60,20 @@ const styles = StyleSheet.create({
     width: '50%',
     backgroundColor: Colors.red_honda,
     paddingTop: 20,
-    paddingBottom: 10,    
+    paddingBottom: 10,
+    marginTop: 10,
   },  
   gameOverPage__restart_button__text: {
     color: Colors.white,
     fontSize: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   gameOverPage__text: {
     color: Colors.black,
     fontSize: 20,
+    paddingTop: 10
+    
   }
 });
 

@@ -139,27 +139,42 @@ const QuizPage = ({navigation}) : JSX.Element => {
       </View>)
     }
 
+  const timerWidget = () => (
+    <View style={styles.quizPage__timer__container}>
+        {
+          timer === 0 && buttonPressed === options.length ?
+          <AppText {...{
+            ...styles.quizPage__question__question_text,
+            ...styles.quizPage__timer__text,
+            color: timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest, 
+            }} >
+          Time's Up!
+          </AppText>
+          :
+          <>
+            <AppText {...{...styles.quizPage__question__question_text, color: timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest, height: 70, backgroundColor: 'transparent', fontSize: 20, paddingTop: 27, position: 'absolute' }}>
+              {timer === 0 ? "" : timer}
+            </AppText>          
+            <Progress.Circle
+              progress={timer/time || 0}
+              thickness={10}
+              borderWidth={2} 
+              borderColor={'white'}
+              color={timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest}
+              size={70}
+              
+              animated={false}
+            />
+          </>
+        }
+        </View>
+  )
+
   return (
     <View style={styles.quizPage__container}>
-      <View style={{justifyContent:"flex-start"}}>
-        
-        {
-          timer === 0 && buttonPressed === options.length ? 
-          <View>
-            <AppText {...{...styles.quizPage__question__question_text, color: Colors.red_honda}}>
-              Time's Up!
-            </AppText>
-          </View>
-          :
-          <Progress.Circle 
-          progress={timer/time || 0} 
-          thickness={10} 
-          borderWidth={0} 
-          color={timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest}
-          size={70}           
-          animated={false}/>
-        }
-      </View>
+      <View style={{justifyContent:"flex-end", width:"100%", height: "100%"}}>
+        {timerWidget()}
+      </View>      
       {questionCard()}
       <View style={styles.quizPage__border__bottom} />
     </View>
@@ -243,7 +258,19 @@ const styles = StyleSheet.create({
     width: '100%', 
     height: 5, 
     backgroundColor: Colors.blue_azure_darkest 
-  }
+  },
+  quizPage__timer__container: {
+    alignItems: 'center',
+    backgroundColor:'transparent',
+    justifyContent: 'center'
+  },
+  quizPage__timer__text: {
+    height: 70, 
+    backgroundColor: 'transparent', 
+    fontSize: 20,     
+    position: 'absolute' 
+  },
+  
 });
 
 export default QuizPage;
