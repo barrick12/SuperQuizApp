@@ -7,6 +7,13 @@ interface IQuestionAnswer {
     time: number,    
 }
 
+interface ITimerProps{
+  timer: number,
+  buttonPressedIndex: number,
+  questionOptionsLength: number,
+  totalTime: number,
+}
+
 type QuestionAnswerContextType = {  
   saveQuestionAnswers: (questionAnswers: IQuestionAnswer[]) => void,
   getQuestionAnswers: () => IQuestionAnswer[];

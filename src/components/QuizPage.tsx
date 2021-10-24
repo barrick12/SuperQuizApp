@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { StyleSheet, TouchableOpacity, View, Image  } from 'react-native';
-import AppText from './AppText'
+import AppText from './AppText';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
-import Colors from "../utils/colors"
+import Colors from '../utils/colors';
 import delay from '../utils/delay';
-import * as Progress from 'react-native-progress';
+import Timer from './Timer'
 
 const QuizPage = ({navigation}) : JSX.Element => {
   
@@ -30,9 +30,8 @@ const QuizPage = ({navigation}) : JSX.Element => {
     (async () =>{
 
       if(timer ===0){
-        if(buttonPressed == -1) {
-          onPress(options.length);
-        }
+        if(buttonPressed === -1)
+          onPress(options.length);        
         else 
           setShowAnswer(true);
 
@@ -139,41 +138,12 @@ const QuizPage = ({navigation}) : JSX.Element => {
       </View>)
     }
 
-  const timerWidget = () => (
-    <View style={styles.quizPage__timer__container}>
-        {
-          timer === 0 && buttonPressed === options.length ?
-          <AppText {...{
-            ...styles.quizPage__question__question_text,
-            ...styles.quizPage__timer__text,
-            color: timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest, 
-            }} >
-          Time's Up!
-          </AppText>
-          :
-          <>
-            <AppText {...{...styles.quizPage__question__question_text, color: timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest, height: 70, backgroundColor: 'transparent', fontSize: 20, paddingTop: 27, position: 'absolute' }}>
-              {timer === 0 ? "" : timer}
-            </AppText>          
-            <Progress.Circle
-              progress={timer/time || 0}
-              thickness={10}
-              borderWidth={2} 
-              borderColor={'white'}
-              color={timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest}
-              size={70}
-              
-              animated={false}
-            />
-          </>
-        }
-        </View>
-  )
+  let timerProps = {timer: timer, buttonPressedIndex: buttonPressed, questionOptionsLength: options.length, totalTime: time};
 
   return (
     <View style={styles.quizPage__container}>
       <View style={{justifyContent:"flex-end", width:"100%", height: "100%"}}>
-        {timerWidget()}
+        <Timer {...timerProps} />
       </View>      
       {questionCard()}
       <View style={styles.quizPage__border__bottom} />
@@ -259,17 +229,17 @@ const styles = StyleSheet.create({
     height: 5, 
     backgroundColor: Colors.blue_azure_darkest 
   },
-  quizPage__timer__container: {
-    alignItems: 'center',
-    backgroundColor:'transparent',
-    justifyContent: 'center'
-  },
-  quizPage__timer__text: {
-    height: 70, 
-    backgroundColor: 'transparent', 
-    fontSize: 20,     
-    position: 'absolute' 
-  },
+  // quizPage__timer__container: {
+  //   alignItems: 'center',
+  //   backgroundColor:'transparent',
+  //   justifyContent: 'center'
+  // },
+  // quizPage__timer__text: {
+  //   height: 70, 
+  //   backgroundColor: 'transparent', 
+  //   fontSize: 20,     
+  //   position: 'absolute' 
+  // },
   
 });
 
