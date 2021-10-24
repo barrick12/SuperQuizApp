@@ -4,6 +4,7 @@ import AppText from './AppText'
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import Colors from "../utils/colors"
 import delay from '../utils/delay';
+import * as Progress from 'react-native-progress';
 
 const QuizPage = ({navigation}) : JSX.Element => {
   
@@ -12,44 +13,56 @@ const QuizPage = ({navigation}) : JSX.Element => {
   const [buttonPressed, setButtonPressed] = useState(-1);
   const [showAnswer, setShowAnswer] = useState(false);
   const [quizComplete, setQuizComplete] = useState(false);
+  const [timer, setTimer] = React.useState(10);
 
   const {getQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
   
   let { id, imageUrl, question, options, answer, time} = getQuestionAnswers()[currentQuestionIndex];
   
-  const onPress = async (index:number) : Promise<void> =>{    
-        
+  const onPress = async (index:number) : Promise<void> =>{
     setCountCorrectQuestions( prev => index === answer ? prev + 1 : prev );
-    setButtonPressed(index);
-    // await a timer to return using 'time'    
-    await delay(1000);
-    setShowAnswer(true);
-        
-    await delay(1000);    
-
-    if(currentQuestionIndex !== getQuestionAnswers().length-1) 
-      setCurrentQuestionIndex(prev => prev + 1);
-    
-    if(currentQuestionIndex === getQuestionAnswers().length-1)
-      setQuizComplete(true);
-    
-    setButtonPressed(-1);
-    setShowAnswer(false);
+    setButtonPressed(index);    
   };  
-  
+
+  useEffect(()=>{ setTimer(time) },[])
+
+  useEffect(() => {
+    (async () =>{
+
+      if(timer ===0){
+        if(buttonPressed == -1) {
+          onPress(options.length);
+        }
+        else 
+          setShowAnswer(true);
+
+        await delay();    
+        if(currentQuestionIndex !== getQuestionAnswers().length-1) 
+          setCurrentQuestionIndex(prev => prev + 1);
+        
+        if(currentQuestionIndex === getQuestionAnswers().length-1)
+          setQuizComplete(true);
+        
+        setTimer(time) 
+        setButtonPressed(-1);
+        setShowAnswer(false);
+        return;
+      }
+
+      timer > 0 && setTimeout(() => setTimer(timer - 1), 1000);    
+    })();
+  }, [timer]);  
+
   useEffect(()=>{
     if(currentQuestionIndex === 0) return;
-
-    console.log("getQuestionAnswers().length: ", getQuestionAnswers().length)
-
-    if(currentQuestionIndex === getQuestionAnswers().length-1) {
-      console.log("countCorrectQuestions: ", countCorrectQuestions);
+    
+    if(currentQuestionIndex === getQuestionAnswers().length-1) {      
       navigation.navigate('GameOverPage',{ countCorrectQuestions });
       return;
     }
   },
   [quizComplete])
-
+  
   const questionCard = () : JSX.Element => {
 
     return (
@@ -90,7 +103,7 @@ const QuizPage = ({navigation}) : JSX.Element => {
                 style={buttonStyle}
                 onPress={()=>onPress(index)}
                 activeOpacity={0.75}              
-                disabled={buttonPressed !== -1}
+                disabled={buttonPressed !== -1 || timer === 0}
               >
                 <AppText {...appTextProps}
                 >
@@ -127,7 +140,26 @@ const QuizPage = ({navigation}) : JSX.Element => {
     }
 
   return (
-    <View style={styles.quizPage__container}>    
+    <View style={styles.quizPage__container}>
+      <View style={{justifyContent:"flex-start"}}>
+        
+        {
+          timer === 0 && buttonPressed === options.length ? 
+          <View>
+            <AppText {...{...styles.quizPage__question__question_text, color: Colors.red_honda}}>
+              Time's Up!
+            </AppText>
+          </View>
+          :
+          <Progress.Circle 
+          progress={timer/time || 0} 
+          thickness={10} 
+          borderWidth={0} 
+          color={timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest}
+          size={70}           
+          animated={false}/>
+        }
+      </View>
       {questionCard()}
       <View style={styles.quizPage__border__bottom} />
     </View>

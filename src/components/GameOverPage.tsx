@@ -26,9 +26,12 @@ const GameOverPage = ({route, navigation}) : JSX.Element => {
   
     <View style={styles.gameOverPage__container} >
       <AppText {...styles.gameOverPage__text}
-      >
-        { countCorrectQuestions >2 ? `You win!` : `You lose!` }
+      >        
+        {countCorrectQuestions >2 ? `You win!` : `You lose!` }               
       </AppText>        
+      <AppText {...styles.gameOverPage__text}>
+        {`You answered ${countCorrectQuestions}/${getQuestionAnswers().length} correctly.`}
+      </AppText>
 
         <TouchableOpacity      
           style={styles.gameOverPage__restart_button}      
