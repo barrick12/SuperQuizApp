@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import AppText from './AppText';
@@ -26,8 +26,6 @@ const StartPage = ({navigation}) : JSX.Element => {
         let response = await axios.get('https://scs-interview-api.herokuapp.com/questions');
         data  = response.data;
       }
-      // TODO data transform --- can likely remove this
-      data.forEach(datum => {datum.isCorrect = false;})            
       saveQuestionAnswers(data as IQuestionAnswer[]);       
       setIsLoading(false);
     };

@@ -5,12 +5,14 @@ import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import Colors from "../utils/colors"
 import delay from '../utils/delay';
 
-const QuizPage = (props) : JSX.Element => {
+const QuizPage = ({navigation}) : JSX.Element => {
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [countCorrectQuestions, setCountCorrectQuestions] = useState(0);  
   const [buttonPressed, setButtonPressed] = useState(-1);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [quizComplete, setQuizComplete] = useState(false);
+
   const {getQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
   
   let { id, imageUrl, question, options, answer, time} = getQuestionAnswers()[currentQuestionIndex];
@@ -23,15 +25,31 @@ const QuizPage = (props) : JSX.Element => {
     await delay(1000);
     setShowAnswer(true);
         
-    await delay(2000);
-    // TODO Remove
-    if(currentQuestionIndex === getQuestionAnswers().length-1) {setCurrentQuestionIndex(0);return}
-    //
-    setCurrentQuestionIndex(prev => prev + 1);
+    await delay(1000);    
+
+    if(currentQuestionIndex !== getQuestionAnswers().length-1) 
+      setCurrentQuestionIndex(prev => prev + 1);
+    
+    if(currentQuestionIndex === getQuestionAnswers().length-1)
+      setQuizComplete(true);
+    
     setButtonPressed(-1);
     setShowAnswer(false);
   };  
   
+  useEffect(()=>{
+    if(currentQuestionIndex === 0) return;
+
+    console.log("getQuestionAnswers().length: ", getQuestionAnswers().length)
+
+    if(currentQuestionIndex === getQuestionAnswers().length-1) {
+      console.log("countCorrectQuestions: ", countCorrectQuestions);
+      navigation.navigate('GameOverPage',{ countCorrectQuestions });
+      return;
+    }
+  },
+  [quizComplete])
+
   const questionCard = () : JSX.Element => {
 
     return (
@@ -78,7 +96,8 @@ const QuizPage = (props) : JSX.Element => {
                 >
                   {option}                  
                 </AppText>
-                { showAnswer && ((buttonPressed === index && index === answer) || (buttonPressed !== index && index === answer)) &&
+                { 
+                  showAnswer && ((buttonPressed === index && index === answer) || (buttonPressed !== index && index === answer)) &&
                   <View                       
                     style={styles.quizPage__button_icon__container} 
                     >
@@ -87,7 +106,8 @@ const QuizPage = (props) : JSX.Element => {
                     source={require('../../assets/greenCheck.png')} />
                   </View>
                 }
-                { showAnswer && 
+                { 
+                  showAnswer && 
                   (buttonPressed === index && index !== answer) &&                  
                   <View                       
                     style={styles.quizPage__button_icon__container} 
@@ -109,7 +129,7 @@ const QuizPage = (props) : JSX.Element => {
   return (
     <View style={styles.quizPage__container}>    
       {questionCard()}
-      <View style={{width: '100%', height: 5, backgroundColor: Colors.blue_azure_darkest }} />
+      <View style={styles.quizPage__border__bottom} />
     </View>
   )
 }
@@ -186,6 +206,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',                    
     width: 55,
     height: 45,
+  },
+  quizPage__border__bottom: {
+    width: '100%', 
+    height: 5, 
+    backgroundColor: Colors.blue_azure_darkest 
   }
 });
 

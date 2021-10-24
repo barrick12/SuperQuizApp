@@ -4,12 +4,10 @@ interface IQuestionAnswer {
     question: string,
     options: string[],
     answer: number,
-    time: number,
-    isCorrect: boolean,
+    time: number,    
 }
 
 type QuestionAnswerContextType = {  
-  saveQuestionAnswers: (questionAnswers: IQuestionAnswer[]) => void 
-  updateQuestionAnswer: (id: string, isCorrect: boolean) => void    
+  saveQuestionAnswers: (questionAnswers: IQuestionAnswer[]) => void,
   getQuestionAnswers: () => IQuestionAnswer[];
 }

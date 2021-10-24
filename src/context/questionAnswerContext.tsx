@@ -16,8 +16,7 @@ const QuestionAnswerProvider = ({ children }) => {
         question: questionAnswer.question,
         options: questionAnswer.options,
         answer: questionAnswer.answer,
-        time: questionAnswer.time,
-        isCorrect: false,
+        time: questionAnswer.time,        
       }
       questionAnswersTransform.push(newQuestionAnswer);
     })
@@ -25,22 +24,12 @@ const QuestionAnswerProvider = ({ children }) => {
     setQuestionAnswers([...questionAnswersTransform]);
   }
   
-  const updateQuestionAnswer = (id: string, isCorrect: boolean) => {
-    if(!Boolean(id)) return;
-    questionAnswers.filter( questionAnswer => {
-      if(questionAnswer.id === id){
-        questionAnswer.isCorrect = isCorrect;
-        setQuestionAnswers([...questionAnswers])
-      }
-    });
-  }
-
   const getQuestionAnswers = () => (questionAnswers);
   
   const initialContext = {    
     getQuestionAnswers,
     saveQuestionAnswers,
-    updateQuestionAnswer,
+    // updateQuestionAnswer,
   }
 
   return(

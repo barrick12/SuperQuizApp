@@ -1,6 +1,6 @@
 export default {
   red_honda: "#CC0000",
-  red_light: "#CC1616",
+  red_light: "#D62929",
   white: "#FFFFFF",
   white_azure_pale: "#F0FFFF",
   black: "#000000",

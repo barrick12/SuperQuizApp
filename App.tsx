@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartPage from './src/components/StartPage';
 import QuizPage from './src/components/QuizPage';
+import GameOverPage from './src/components/GameOverPage';
 import QuestionAnswerProvider from './src/context/questionAnswerContext';
 
 const Stack = createNativeStackNavigator();
@@ -24,10 +25,10 @@ export default function App() {
           screenOptions={{
             headerShown: false
           }}
-        >
-          
+        >          
           <Stack.Screen name="StartPage" component={StartPage} />        
           <Stack.Screen name="QuizPage" component={QuizPage} />
+          <Stack.Screen name="GameOverPage" component={GameOverPage} />
           
         </Stack.Navigator>
         
@@ -36,12 +37,3 @@ export default function App() {
     
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
