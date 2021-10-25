@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import { StyleSheet, TouchableOpacity, View, Image  } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Animated } from 'react-native';
 import AppText from './AppText';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import Colors from '../utils/colors';
 import delay from '../utils/delay';
 import Timer from './Timer'
+import { images } from "../utils/sprites";
 
 import {PlayerSprite, EnemySprite} from './Sprite';
 
@@ -16,6 +17,32 @@ const QuizPage = ({navigation}) : JSX.Element => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [quizComplete, setQuizComplete] = useState(false);
   const [timer, setTimer] = React.useState(10);
+  const fireAnim = useRef(new Animated.Value(-0.5)).current
+
+  React.useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(
+        fireAnim,
+        // @ts-ignore
+        {
+          toValue: 0.5,
+          duration: 1,
+          useNativeDriver: true,
+        }),
+        Animated.delay(250),      
+        Animated.timing(
+          fireAnim,
+          // @ts-ignore
+          {
+            toValue: -0.5,
+            duration: 1,
+            useNativeDriver: true,
+          },
+        ),
+        Animated.delay(250),
+    ])).start();
+  }, [fireAnim])
 
   const {getQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
   
@@ -166,6 +193,23 @@ const QuizPage = ({navigation}) : JSX.Element => {
 
   return (
     <View style={styles.quizPage__container}>
+      
+      <Animated.View style={{
+        position:"absolute",         
+        top: 60,
+        left: -80,
+        zIndex: 10,
+        transform: [
+          {scaleX: 
+            fireAnim,
+            },{scaleY: 0.5}            
+          ]
+        }}>
+        <Image
+          source={images.fire}
+        />        
+      </Animated.View>
+      
       <View style={{position:"absolute", top:120, left: -40}}>
         <PlayerSprite            
             ref={player}            
