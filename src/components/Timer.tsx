@@ -14,22 +14,22 @@ const Timer = (props: ITimerProps) : JSX.Element => {
         timer === 0 && buttonPressedIndex === questionOptionsLength ?
         <AppText {...{          
           ...styles.timer__text,
-          color: timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest, 
+          color: timer < 4 ? Colors.red_light : Colors.green_bright, 
           }} >
         Time's Up!
         </AppText>
         :
         <>
-          <AppText {...{...styles.timer__text__number, color: timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest}}>
+          <AppText {...{...styles.timer__text__number, color: timer < 4 ? Colors.red_light : Colors.green_bright}}>
             {timer === 0 ? "" : timer}
           </AppText>          
           <Progress.Circle
             progress={timer/totalTime || 0}
-            thickness={10}
+            thickness={15}
             borderWidth={2} 
             borderColor={'white'}
-            color={timer < 4 ? Colors.red_honda : Colors.blue_azure_darkest}
-            size={70}
+            color={timer < 4 ? Colors.red_light : Colors.green_bright}
+            size={100}
             
             animated={false}
           />
@@ -46,21 +46,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
   },  
-
   timer__container: {
     alignItems: 'center',
     backgroundColor:'transparent',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 30
   },
   timer__text: {
-    color: Colors.blue_azure_dark,    
     lineHeight: 20,
-    padding: 10,
-    paddingBottom: 5,
-    height: 70, 
+    paddingTop: 50,
+    paddingBottom: 0,
+    height: 100, 
     backgroundColor: 'transparent', 
-    fontSize: 20,     
-    position: 'absolute' 
+    fontSize: 30,
   },
   timer__text__number: {    
     lineHeight: 20,

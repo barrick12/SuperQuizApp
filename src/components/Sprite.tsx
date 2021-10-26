@@ -69,7 +69,6 @@ export class EnemySprite extends React.Component {
       fps: 8,
       loop: true,
       resetAfterFinish: true,
-
     })
   }
 

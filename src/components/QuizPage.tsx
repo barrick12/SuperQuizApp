@@ -6,10 +6,9 @@ import Colors from '../utils/colors';
 import delay from '../utils/delay';
 import Timer from './Timer'
 import { images } from "../utils/sprites";
-
 import {PlayerSprite, EnemySprite} from './Sprite';
 
-const QuizPage = ({navigation}) : JSX.Element => {
+const QuizPage = ({navigation}:any) : JSX.Element => {
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [countCorrectQuestions, setCountCorrectQuestions] = useState(0);  
@@ -193,7 +192,6 @@ const QuizPage = ({navigation}) : JSX.Element => {
   
   return (
     <View style={styles.quizPage__container}>
-      
       <Image
         style={{position: 'absolute', 
           top: 0, 
@@ -205,7 +203,6 @@ const QuizPage = ({navigation}) : JSX.Element => {
         }}
         source={require('../../assets/billBoard.png')}
       />
-      
       <Image
         style={{position: 'absolute', 
           top: 74, 
@@ -279,9 +276,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     lineHeight: 15
   },
-  quizPage__question__question_text: {
-    color: Colors.blue_azure_dark,
-    backgroundColor: Colors.white_azure_pale,
+  quizPage__question__question_text: {    
+    color: Colors.white_azure_pale,    
+    backgroundColor: Colors.blue_azure_dark,
     fontSize: 12,
     lineHeight: 20,
     padding: 10,

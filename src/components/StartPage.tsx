@@ -7,9 +7,9 @@ import sampleData from '../utils/mockData'
 import Colors from "../utils/colors"
 import delay from '../utils/delay';
 
-const StartPage = ({navigation}) : JSX.Element => {
+const StartPage = ({navigation}:any) : JSX.Element => {
 
-  const isMockData = true;
+  const isMockData = false;
   const [isLoading, setIsLoading] = useState(true);
 
   const {getQuestionAnswers, saveQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
@@ -45,7 +45,6 @@ const StartPage = ({navigation}) : JSX.Element => {
 
   return (
     <View style={styles.startPage__container} >
-      
       { isLoading?
         <AppText {...styles.startPage__loading__text}          
         >

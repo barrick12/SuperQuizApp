@@ -5,8 +5,7 @@ import { CommonActions } from '@react-navigation/native';
 import AppText from './AppText';
 import Colors from "../utils/colors"
 
-
-const GameOverPage = ({route, navigation}) : JSX.Element => {
+const GameOverPage = ({route, navigation}:any) : JSX.Element => {
   const { getQuestionAnswers } = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
   const { countCorrectQuestions } = route.params;
   
