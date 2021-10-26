@@ -1,8 +1,6 @@
 // @ts-nocheck
 import React  from 'react';
-import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
-import AppText from './AppText';
-import Colors from "../utils/colors";
+import { View } from 'react-native';
 import SpriteSheet from 'rn-sprite-sheet';
 import Images from "../utils/sprites";
 import delay from "../utils/delay"
@@ -48,22 +46,12 @@ export class PlayerSprite extends React.Component {
           columns={12}          
           rows={2}
           width={297}
-          // height={144} // set either, none, but not both
-          // width={177}
-          // frameHeight={48} // manually set size of your sprite
-          // frameWidth={96} // overrides auto calculation of frame size based on height, width, columns, and rows.
-          // offsetX={0}
-          // offsetY={0}
-          // imageStyle={{ marginTop: -1 }}
-          
           animations={{
             idle: [12,15,12,16],
             attack: [13,14,12,13,14,12],            
           }}
         />
       </View>
-      
-      
     )
   }  
 }

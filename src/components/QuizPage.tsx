@@ -28,16 +28,16 @@ const QuizPage = ({navigation}) : JSX.Element => {
         {
           toValue: 0.5,
           duration: 1,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
-        Animated.delay(250),      
+        Animated.delay(250),
         Animated.timing(
           fireAnim,
           // @ts-ignore
           {
             toValue: -0.5,
             duration: 1,
-            useNativeDriver: true,
+            useNativeDriver: false,
           },
         ),
         Animated.delay(250),
@@ -190,15 +190,37 @@ const QuizPage = ({navigation}) : JSX.Element => {
     }
 
   let timerProps = {timer: timer, buttonPressedIndex: buttonPressed, questionOptionsLength: options.length, totalTime: time};
-
+  
   return (
     <View style={styles.quizPage__container}>
       
+      <Image
+        style={{position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          height: '72%', 
+          width: '100%',
+          zIndex: -1,
+          resizeMode: 'stretch',
+        }}
+        source={require('../../assets/billBoard.png')}
+      />
+      
+      <Image
+        style={{position: 'absolute', 
+          top: 74, 
+          left: 68, 
+          height: 250, 
+          width: 250,
+        }}
+        source={{uri: imageUrl}}
+      />
       <Animated.View style={{
         position:"absolute",         
         top: 60,
         left: -80,
-        zIndex: 10,
+        zIndex: 1,
+        opacity: buttonPressed !== answer && timer===0 ? 1 : 0,
         transform: [
           {scaleX: 
             fireAnim,

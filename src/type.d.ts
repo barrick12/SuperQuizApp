@@ -7,6 +7,14 @@ interface IQuestionAnswer {
     time: number,    
 }
 
+interface IFetchQuestionAnswerResponse {  
+  imageUrl: string,
+  question: string,
+  options: string[],
+  answer: number,
+  time: number,    
+}
+
 interface ITimerProps{
   timer: number,
   buttonPressedIndex: number,

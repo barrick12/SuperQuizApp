@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import AppText from './AppText';
 import axios from "axios";
@@ -17,15 +17,20 @@ const StartPage = ({navigation}) : JSX.Element => {
   useEffect(()=>{ 
     
     const fetchData = async () => {      
-      let data = null;      
+      let data: IFetchQuestionAnswerResponse[] = [];
       if(isMockData) {        
         await delay(1000);
         data = sampleData;
       } 
       else {
-        let response = await axios.get('https://scs-interview-api.herokuapp.com/questions');
+        let response = await axios.get<IFetchQuestionAnswerResponse[]>('https://scs-interview-api.herokuapp.com/questions');        
         data  = response.data;
       }
+
+      data.forEach(datum=>{
+        Image.prefetch(datum.imageUrl);
+      })
+
       saveQuestionAnswers(data as IQuestionAnswer[]);       
       setIsLoading(false);
     };
