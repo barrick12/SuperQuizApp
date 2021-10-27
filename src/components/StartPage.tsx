@@ -9,7 +9,7 @@ import delay from '../utils/delay';
 
 const StartPage = ({navigation}:any) : JSX.Element => {
 
-  const isMockData = false;
+  const isMockData = true;
   const [isLoading, setIsLoading] = useState(true);
 
   const {getQuestionAnswers, saveQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
@@ -17,13 +17,13 @@ const StartPage = ({navigation}:any) : JSX.Element => {
   useEffect(()=>{ 
     
     const fetchData = async () => {      
-      let data: IFetchQuestionAnswerResponse[] = [];
+      let data: FetchQuestionAnswerResponse[] = [];
       if(isMockData) {        
         await delay(1000);
         data = sampleData;
       } 
       else {
-        let response = await axios.get<IFetchQuestionAnswerResponse[]>('https://scs-interview-api.herokuapp.com/questions');        
+        let response = await axios.get<FetchQuestionAnswerResponse[]>('https://scs-interview-api.herokuapp.com/questions');        
         data  = response.data;
       }
 
@@ -31,7 +31,7 @@ const StartPage = ({navigation}:any) : JSX.Element => {
         Image.prefetch(datum.imageUrl);
       })
 
-      saveQuestionAnswers(data as IQuestionAnswer[]);       
+      saveQuestionAnswers(data as QuestionAnswer[]);       
       setIsLoading(false);
     };
 

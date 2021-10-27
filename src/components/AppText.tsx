@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text} from 'react-native';
 import { useFonts } from 'expo-font';
+import Fonts from "../utils/fonts";
 
 export default (props: any): JSX.Element => {
   const { children, ...rest} = props;
   let [fontsLoaded] = useFonts({
-    'PressStart2P': require('../../assets/fonts/PressStart2P-Regular.ttf'),
+    'PressStart2P': Fonts.PressStart2P,
   });
   
   if(!fontsLoaded)

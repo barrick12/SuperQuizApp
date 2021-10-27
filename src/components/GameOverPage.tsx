@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import { CommonActions } from '@react-navigation/native';

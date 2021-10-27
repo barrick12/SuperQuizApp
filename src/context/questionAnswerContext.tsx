@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 export const QuestionAnswerContext = React.createContext(null);
 
 const QuestionAnswerProvider = ({ children }) => {
-  const [questionAnswers, setQuestionAnswers] = React.useState<IQuestionAnswer[]>([]);
+  const [questionAnswers, setQuestionAnswers] = React.useState<QuestionAnswer[]>([]);
 
-  const saveQuestionAnswers = (questionAnswers: IQuestionAnswer[]) => {
+  const saveQuestionAnswers = (questionAnswers: QuestionAnswer[]) => {
     if(questionAnswers.length <= 0) return;
-    let questionAnswersTransform: IQuestionAnswer[] = [];    
+    let questionAnswersTransform: QuestionAnswer[] = [];    
     questionAnswers.forEach(questionAnswer => {
-      const newQuestionAnswer: IQuestionAnswer = {
+      const newQuestionAnswer: QuestionAnswer = {
         id: uuidv4(),
         imageUrl: questionAnswer.imageUrl,
         question: questionAnswer.question,

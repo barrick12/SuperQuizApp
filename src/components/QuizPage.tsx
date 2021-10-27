@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Animated } from 'react-native';
+import { StyleSheet, View, Image, Animated } from 'react-native';
 import AppText from './AppText';
 import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import Colors from '../utils/colors';
 import delay from '../utils/delay';
 import Timer from './Timer'
-import { images } from "../utils/sprites";
-import {PlayerSprite, EnemySprite} from './Sprite';
+import Images from '../utils/staticImages';
+import { PlayerSprite, EnemySprite } from './Sprite';
+import QuestionOptionsCard from './QuestionOptionsCard';
 
 const QuizPage = ({navigation}:any) : JSX.Element => {
   
@@ -16,14 +17,13 @@ const QuizPage = ({navigation}:any) : JSX.Element => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [quizComplete, setQuizComplete] = useState(false);
   const [timer, setTimer] = React.useState(10);
-  const fireAnim = useRef(new Animated.Value(-0.5)).current
+  const fireAnim = useRef<Animated.Value>(new Animated.Value(-0.5)).current
 
   React.useEffect(() => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(
-        fireAnim,
-        // @ts-ignore
+        fireAnim,        
         {
           toValue: 0.5,
           duration: 1,
@@ -31,8 +31,7 @@ const QuizPage = ({navigation}:any) : JSX.Element => {
         }),
         Animated.delay(250),
         Animated.timing(
-          fireAnim,
-          // @ts-ignore
+          fireAnim,          
           {
             toValue: -0.5,
             duration: 1,
@@ -122,94 +121,23 @@ const QuizPage = ({navigation}:any) : JSX.Element => {
             {question}
           </AppText>            
         </View>        
-      {
-        options.map((option,index)=>{          
-          
-          let appTextProps = showAnswer ?
-            {...styles.quizPage__question__options_text}            
-          :          
-            buttonPressed === index && buttonPressed > -1 ? {...styles.quizPage__question__options_text}
-            : buttonPressed !== index && buttonPressed > -1 ? {...styles.quizPage__question__options_text__not_pressed}
-            : {...styles.quizPage__question__options_text};
-
-          let buttonStyle = 
-            showAnswer ?
-            [ buttonPressed === index && index === answer && styles.quizPage__button__is_answer,
-              buttonPressed === index && index !== answer && styles.quizPage__button__is_not_answer,
-              buttonPressed !== index && index === answer && styles.quizPage__button__is_answer,              
-              buttonPressed !== index && index !== answer && {...styles.quizPage__button__not_pressed, ...styles.quizPage__button}, 
-              {flexDirection: 'row', justifyContent:'center'}
-            ]
-            :
-            [styles.quizPage__button, 
-              buttonPressed === index && styles.quizPage__button__pressed,
-              buttonPressed !== index && buttonPressed > -1 && styles.quizPage__button__not_pressed
-            ];
-          
-          return (
-            <View key={`${id}-${index}`} style={{width:'100%'}} >
-              <TouchableOpacity
-                style={buttonStyle}
-                onPress={()=>onPress(index)}
-                activeOpacity={0.75}              
-                disabled={buttonPressed !== -1 || timer === 0}
-              >
-                <AppText {...appTextProps}
-                >
-                  {option}                  
-                </AppText>
-                { 
-                  showAnswer && ((buttonPressed === index && index === answer) || (buttonPressed !== index && index === answer)) &&
-                  <View                       
-                    style={styles.quizPage__button_icon__container} 
-                    >
-                  <Image 
-                    style={styles.quizPage__button_icon__image}                    
-                    source={require('../../assets/greenCheck.png')} />
-                  </View>
-                }
-                { 
-                  showAnswer && 
-                  (buttonPressed === index && index !== answer) &&                  
-                  <View                       
-                    style={styles.quizPage__button_icon__container} 
-                    >
-                  <Image 
-                    style={styles.quizPage__button_icon__image}                    
-                    source={require('../../assets/redX.png')} />
-                  </View>
-                }
-                
-              </TouchableOpacity>              
-            </View>
-          )
-        })
+        {
+          options.map((option,index)=> 
+            QuestionOptionsCard({showAnswer, buttonPressed, index, id, answer, timer, option, onPress}))        
+        }
+        </View>)
       }
-      </View>)
-    }
 
   let timerProps = {timer: timer, buttonPressedIndex: buttonPressed, questionOptionsLength: options.length, totalTime: time};
   
   return (
     <View style={styles.quizPage__container}>
       <Image
-        style={{position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          height: '72%', 
-          width: '100%',
-          zIndex: -1,
-          resizeMode: 'stretch',
-        }}
-        source={require('../../assets/billBoard.png')}
+        style={styles.quizPage__image__billBoard}
+        source={Images.billBoard}
       />
       <Image
-        style={{position: 'absolute', 
-          top: 74, 
-          left: 68, 
-          height: 250, 
-          width: 250,
-        }}
+        style={styles.quizPage__image__billBoard_ad}
         source={{uri: imageUrl}}
       />
       <Animated.View style={{
@@ -225,22 +153,21 @@ const QuizPage = ({navigation}:any) : JSX.Element => {
           ]
         }}>
         <Image
-          source={images.fire}
+          source={Images.fire}
         />        
       </Animated.View>
       
-      <View style={{position:"absolute", top:120, left: -40}}>
+      <View style={styles.quizPage__sprite_container__player}>
         <PlayerSprite            
             ref={player}            
           />
       </View>
-      <View style={{position:"absolute", top:120, right: 0}}>
+      <View style={styles.quizPage__sprite_container__enemy}>
         <EnemySprite
           ref={enemy}            
           />
       </View>
-      <View style={{justifyContent:"flex-end", width:"100%", height: "100%"}}>        
-      
+      <View style={styles.quizPage__timer_container}>
         <Timer {...timerProps} />
       </View>      
       {questionCard()}
@@ -255,26 +182,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',    
     alignItems: 'center',
     justifyContent: 'flex-end',
-  },  
-  quizPage__button: {    
-    width: '100%',
-    backgroundColor: Colors.blue_azure_medium,
-    paddingTop: 20,
-    paddingBottom: 10,
-    borderRadius: 0,
-    borderColor: Colors.blue_azure_darkest,
-    borderWidth: 5,
-    borderBottomWidth: 0,
-  },  
-  quizPage__question__options_text: {
-    color: Colors.white_azure_pale,
-    fontSize: 10,
-    lineHeight: 15
-  },
-  quizPage__question__options_text__not_pressed: {
-    color: Colors.grey_slate,
-    fontSize: 10,
-    lineHeight: 15
   },
   quizPage__question__question_text: {    
     color: Colors.white_azure_pale,    
@@ -283,33 +190,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     padding: 10,
     paddingBottom: 5,
-  },
-  quizPage__button__pressed: {
-    backgroundColor: Colors.orange_light,
-  },
-  quizPage__button__not_pressed: {
-    backgroundColor: Colors.blue_azuer_darker,
-  },
-  quizPage__button__is_answer: {
-    backgroundColor: Colors.green_teal,
-    width: '100%',    
-    paddingTop: 20,
-    paddingBottom: 10,
-    borderRadius: 0,
-    borderColor: Colors.blue_azure_darkest,
-    borderWidth: 5,
-    borderBottomWidth: 0,    
-  },
-  quizPage__button__is_not_answer: {
-    backgroundColor: Colors.red_light,    
-    width: '100%',    
-    paddingTop: 20,
-    paddingBottom: 10,
-    borderRadius: 0,
-    borderColor: Colors.blue_azure_darkest,
-    borderWidth: 5,
-    borderBottomWidth: 0,    
-  },
+  },  
   quizPage__button_icon__container: {
     position:'absolute',
     overflow: 'visible',
@@ -327,7 +208,37 @@ const styles = StyleSheet.create({
     height: 5, 
     backgroundColor: Colors.blue_azure_darkest 
   },
-  
+  quizPage__image__billBoard: {
+    position: 'absolute', 
+    top: 0, 
+    left: 0, 
+    height: '72%', 
+    width: '100%',
+    zIndex: -1,
+    resizeMode: 'stretch',
+  },
+  quizPage__image__billBoard_ad: {
+    position: 'absolute', 
+    top: 74, 
+    left: 68, 
+    height: 250, 
+    width: 250,        
+  },
+  quizPage__sprite_container__player: {
+    position:"absolute", 
+    top:120, 
+    left: -40
+  },
+  quizPage__sprite_container__enemy: {
+    position:"absolute",
+    top:120,
+    right: 0
+  },
+  quizPage__timer_container: {
+    justifyContent:"flex-end", 
+    width:"100%", 
+    height: "100%"
+  }
 });
 
 export default QuizPage;
