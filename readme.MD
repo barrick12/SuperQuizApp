@@ -14,6 +14,6 @@ Type in your terminal
 npm run start
 ```
 
-This project was tested and build using android.
+This project was tested and built using android.
 
 Enjoy!
