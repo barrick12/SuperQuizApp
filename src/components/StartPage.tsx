@@ -10,7 +10,7 @@ import { FetchQuestionAnswerResponse, QuestionAnswer, QuestionAnswerContextType 
 
 const StartPage = ({navigation}:any) : JSX.Element => {
 
-  const isMockData = true;
+  const isMockData = false;
   const [isLoading, setIsLoading] = useState(true);
 
   const {getQuestionAnswers, saveQuestionAnswers} = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
