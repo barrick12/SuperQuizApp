@@ -1,4 +1,6 @@
-type QuestionAnswer = {
+import React, { ReactNode } from 'react';
+
+export type QuestionAnswer = {
     id: string,
     imageUrl: string,
     question: string,
@@ -7,7 +9,7 @@ type QuestionAnswer = {
     time: number,    
 }
 
-type FetchQuestionAnswerResponse = {  
+export type FetchQuestionAnswerResponse = {  
   imageUrl: string,
   question: string,
   options: string[],
@@ -15,29 +17,19 @@ type FetchQuestionAnswerResponse = {
   time: number,    
 }
 
-//{showAnswer, buttonPressed, index, id, answer, onPress, timer, option}
-
-type QuestionAnswerContextType = {  
+export type QuestionAnswerContextType = {  
   saveQuestionAnswers: (questionAnswers: QuestionAnswer[]) => void,
   getQuestionAnswers: () => QuestionAnswer[];
 }
 
-interface ITimerProps{
+export interface ITimerProps{
   timer: number,
   buttonPressedIndex: number,
   questionOptionsLength: number,
   totalTime: number,
 }
 
-// const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-//   const [countCorrectQuestions, setCountCorrectQuestions] = useState(0);  
-//   const [buttonPressed, setButtonPressed] = useState(-1);
-//   const [showAnswer, setShowAnswer] = useState<Boolean>(false);
-//   const [quizComplete, setQuizComplete] = useState<Boolean>(false);
-//   const [timer, setTimer] = React.useState(10);
-
-
-interface IQuestionOptionsCard {
+export interface IQuestionOptionsCard {
   showAnswer: boolean, 
   buttonPressed: number, 
   index: number,
@@ -46,4 +38,12 @@ interface IQuestionOptionsCard {
   timer: number,
   option: string,
   onPress: (value: number) => void
+}
+
+export interface IQuestionAnswerProviderProps {
+  children: ReactNode
+}
+
+export interface IAppTextProps {
+  children: ReactNode,  
 }

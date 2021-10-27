@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import AppText from './AppText';
 import Images from '../utils/staticImages';
 import Colors from '../utils/colors';
+import { IQuestionOptionsCard} from "../type"
 
 const QuestionOptionsCard = (props: IQuestionOptionsCard) => {  
 

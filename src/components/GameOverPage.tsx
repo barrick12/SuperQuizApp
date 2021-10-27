@@ -4,6 +4,7 @@ import { QuestionAnswerContext } from '../context/questionAnswerContext';
 import { CommonActions } from '@react-navigation/native';
 import AppText from './AppText';
 import Colors from "../utils/colors"
+import { QuestionAnswerContextType } from '../type';
 
 const GameOverPage = ({route, navigation}:any) : JSX.Element => {
   const { getQuestionAnswers } = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;

@@ -1,10 +1,12 @@
 import React from "react";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import { IQuestionAnswerProviderProps, QuestionAnswer, QuestionAnswerContextType } from '../type'
 
-export const QuestionAnswerContext = React.createContext(null);
+export const QuestionAnswerContext = React.createContext<QuestionAnswerContextType | null>(null);
 
-const QuestionAnswerProvider = ({ children }) => {
+const QuestionAnswerProvider = (props: IQuestionAnswerProviderProps ) => {
+  const { children } = props;
   const [questionAnswers, setQuestionAnswers] = React.useState<QuestionAnswer[]>([]);
 
   const saveQuestionAnswers = (questionAnswers: QuestionAnswer[]) => {
@@ -27,14 +29,13 @@ const QuestionAnswerProvider = ({ children }) => {
   
   const getQuestionAnswers = () => (questionAnswers);
   
-  const initialContext = {    
+  const initialContext : QuestionAnswerContextType = {    
     getQuestionAnswers,
-    saveQuestionAnswers,
-    // updateQuestionAnswer,
+    saveQuestionAnswers,    
   }
 
   return(
-    <QuestionAnswerContext.Provider value={ initialContext}>{ children }</QuestionAnswerContext.Provider>
+    <QuestionAnswerContext.Provider value={ initialContext }>{ children }</QuestionAnswerContext.Provider>
   )
 }
 

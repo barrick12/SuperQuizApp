@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Text} from 'react-native';
 import { useFonts } from 'expo-font';
 import Fonts from "../utils/fonts";
+import { IAppTextProps } from '../type'
 
-export default (props: any): JSX.Element => {
+export default (props: IAppTextProps): JSX.Element => {
   const { children, ...rest} = props;
   let [fontsLoaded] = useFonts({
     'PressStart2P': Fonts.PressStart2P,
@@ -16,7 +17,7 @@ export default (props: any): JSX.Element => {
       <Text
         style={styles({...rest}).AppText__text}
       >
-        {props.children}
+        {children}
       </Text>
     )
 }

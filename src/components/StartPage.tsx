@@ -6,6 +6,7 @@ import axios from "axios";
 import sampleData from '../utils/mockData'
 import Colors from "../utils/colors"
 import delay from '../utils/delay';
+import { FetchQuestionAnswerResponse, QuestionAnswer, QuestionAnswerContextType } from '../type';
 
 const StartPage = ({navigation}:any) : JSX.Element => {
 

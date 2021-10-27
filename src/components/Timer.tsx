@@ -2,7 +2,7 @@ import React  from 'react';
 import { StyleSheet, View } from 'react-native';
 import AppText from './AppText'
 import Colors from "../utils/colors"
-
+import { ITimerProps } from '../type';
 import * as Progress from 'react-native-progress';
 
 const Timer = (props: ITimerProps) : JSX.Element => {

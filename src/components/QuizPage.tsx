@@ -8,6 +8,7 @@ import Timer from './Timer'
 import Images from '../utils/staticImages';
 import { PlayerSprite, EnemySprite } from './Sprite';
 import QuestionOptionsCard from './QuestionOptionsCard';
+import { QuestionAnswerContextType } from '../type';
 
 const QuizPage = ({navigation}:any) : JSX.Element => {
   
