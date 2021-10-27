@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   gameOverPage__text: {
     color: Colors.black,
     fontSize: 20,
-    paddingTop: 10,    
+    paddingTop: 10,
+    lineHeight: 30,
   }
 });
 

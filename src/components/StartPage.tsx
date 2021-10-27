@@ -47,21 +47,41 @@ const StartPage = ({navigation}:any) : JSX.Element => {
   return (
     <View style={styles.startPage__container} >
       { isLoading?
-        <AppText {...styles.startPage__loading__text}          
+        <AppText {...styles.startPage__message_text}          
         >
           Loading...
         </AppText>
         :
-        <TouchableOpacity      
-          style={styles.startPage__start_button}      
-          onPress={onPress}
-          activeOpacity={0.75}
-        >
-          <AppText {...styles.startPage__start_button__text}          
+        <>
+          <View style={{justifyContent:'flex-start', paddingBottom: 30}}>
+            <AppText {...styles.startPage__title_super}
+            >        
+              Super
+            </AppText>
+            <AppText {...styles.startPage__title_code}
+            >        
+              CODE
+            </AppText>
+            <AppText {...styles.startPage__title_quiz}
+            >        
+              Quiz
+            </AppText>
+          </View>
+          <AppText {...styles.startPage__message_text}
+          >        
+            Answer all questions to win!
+          </AppText>        
+          <TouchableOpacity      
+            style={styles.startPage__start_button}      
+            onPress={onPress}
+            activeOpacity={0.75}
           >
-            Start
-          </AppText>
-        </TouchableOpacity>
+            <AppText {...styles.startPage__start_button__text}          
+            >
+              Start
+            </AppText>
+          </TouchableOpacity>
+        </>
       }
       
     </View>
@@ -85,10 +105,48 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 20,
   },
-  startPage__loading__text: {
+  startPage__message_text: {
     color: Colors.black,
     fontSize: 20,
-  }
+    paddingRight:30,
+    paddingLeft:30,
+    paddingBottom: 20,
+    lineHeight: 30,
+  },
+  startPage__title_super: {
+    color: Colors.red_lighest,
+    fontSize: 40,
+    paddingRight:30,
+    paddingLeft:30,
+    paddingBottom: 20,
+    lineHeight: 40,
+    textShadowColor: Colors.black,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+  },
+  startPage__title_code: {
+    color: Colors.purple_light,
+    fontSize: 40,
+    paddingRight:30,
+    paddingLeft:30,
+    paddingBottom: 20,
+    lineHeight: 40,
+    textShadowColor: Colors.black,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+  },
+  startPage__title_quiz: {
+    color: Colors.yellow,
+    fontSize: 40,
+    paddingRight:30,
+    paddingLeft:30,
+    paddingBottom: 20,
+    lineHeight: 40,
+    textShadowColor: Colors.black,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+  },
+
 });
 
 export default StartPage;
