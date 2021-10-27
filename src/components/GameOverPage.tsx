@@ -5,6 +5,7 @@ import { CommonActions } from '@react-navigation/native';
 import AppText from './AppText';
 import Colors from "../utils/colors"
 import { QuestionAnswerContextType } from '../type';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const GameOverPage = ({route, navigation}:any) : JSX.Element => {
   const { getQuestionAnswers } = useContext(QuestionAnswerContext) as unknown as QuestionAnswerContextType;
@@ -25,6 +26,9 @@ const GameOverPage = ({route, navigation}:any) : JSX.Element => {
   return (
   
     <View style={styles.gameOverPage__container} >
+      {countCorrectQuestions >2 &&
+         <ConfettiCannon count={200} origin={{x: -10, y: 0}} />
+      }   
       <AppText {...styles.gameOverPage__text}
       >        
         {countCorrectQuestions >2 ? `You win!` : `You lose!` }               

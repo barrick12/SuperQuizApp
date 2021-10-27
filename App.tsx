@@ -19,7 +19,6 @@ export default function App() {
     
     <QuestionAnswerProvider >
       <NavigationContainer>
-        
         <Stack.Navigator 
           initialRouteName="StartPage"
           screenOptions={{
@@ -31,7 +30,6 @@ export default function App() {
           <Stack.Screen name="GameOverPage" component={GameOverPage} />
           
         </Stack.Navigator>
-        
       </NavigationContainer>
       </QuestionAnswerProvider >
     
